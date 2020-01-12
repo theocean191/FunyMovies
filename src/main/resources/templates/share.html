@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          type="text/css"/>
+
+    <title>Homepage</title>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse " style="background-color: black; color: wheat">
+    <div class="container left" style="">
+        <a class="col-sm-5" href="/home" style="font-size: 50px; float: left; color: wheat; text-decoration: none;">
+            <span class="glyphicon glyphicon-home"></span>
+            <label>Funny Movies</label>
+        </a>
+        <div class="navbar-header " style="float: right; margin-top:10px">
+            <div>
+                <div id="login-success-zone" th:if="${#httpServletRequest.remoteUser != null}">
+                    <b th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]] </b>
+                    <!--                        <div class="alert alert-info"><label th:value="${user.username}"></label></div>-->
+                    <a href="#" role="button" th:href="@{/share}">Share a movie</a>
+                    <a href="#" role="button" th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br>
+
+<div style="width: 800px; margin: 0 auto">
+    <form method="post" th:action="@{/share}" th:object="${movie}">
+
+        <fieldset style="border: solid thin; margin: 10px; padding: 20px">
+            <legend style="width: 230px; border: none">Share a YouTube movie:</legend>
+
+            <div class="form-group">
+                <label for="movie-url">Youtube URL</label>:
+                <input autofocus="autofocus" class="form-control"
+                       id="movie-url" name="movieUrl" placeholder="URL"
+                       th:field="*{movieUrl}" type="text"/>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <input class="form-control btn btn-primary" id="share-movie" name="share-movie"
+                               type="submit" value="Share"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-danger">
+                <p class="error-message" th:each="error : ${#fields.errors('global')}"
+                   th:if="${#fields.hasGlobalErrors()}" th:text="${error}">Validation
+                    error</p>
+
+                <p class="error-message" th:each="error : ${#fields.errors('movieUrl')}"
+                   th:if="${#fields.hasErrors('movieUrl')}" th:text="${error}">Invalid URL</p>
+            </div>
+        </fieldset>
+    </form>
+
+    <div th:if="${param.success}">
+        <div class="alert alert-info">You've successfully shared your movie
+            to our awesome app!
+        </div>
+    </div>
+
+</div>
+<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"
+        type="text/javascript"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
+        type="text/javascript"></script>
+
+</body>
+</html>

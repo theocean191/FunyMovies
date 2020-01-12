@@ -1,0 +1,28 @@
+## Spring view resolver set up
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  # Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${JDBC_DATABASE_URL:jdbc:mysql://bd7d8bdb7ed244:f04dd076@us-cdbr-iron-east-05.cleardb.net/heroku_f622a7d71822c2e?reconnect=true:3306}
+    username: ${JDBC_DATABASE_USERNAME:bd7d8bdb7ed244}
+    password: ${JDBC_DATABASE_PASSWORD:f04dd076}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+
+  ## JPA configuration
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+server:
+  port: ${PORT:8080}
